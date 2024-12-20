@@ -4,8 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter =require('../gatepass-be/src/routes/users')
+// var usersRouter = require('../routes/users');
 
 var app = express();
 
@@ -24,7 +24,17 @@ const CONTEXT_PATH = '/gatepass';
 
 app.use(CONTEXT_PATH, usersRouter);
 
-app.use('/', indexRouter);
+
+const cors = require('cors');
+const allowedOrigins = ['http://localhost:3007' ,'http://localhost:4200/auth/login','http://localhost:9000','http://192.168.31.45:9000'];
+const options=cors.CorsOptions= {  origin: allowedOrigins};
+app.use(cors(allowedOrigins));
+app.use(cors(options));
+app.use(cors({
+  origin: '*'
+  
+}));
+
 // app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
